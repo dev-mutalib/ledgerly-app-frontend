@@ -4,6 +4,7 @@
  */
 import { useMemo } from "react";
 import { useBillingStore } from "./store";
+import { useShallow } from "zustand/react/shallow";
 import type { Invoice, InvoiceStatus } from "./schemas";
 import { invoiceTotals } from "./utils";
 
@@ -11,18 +12,18 @@ export const useCustomers = () => useBillingStore((s) => s.customers);
 export const useCustomer = (id: string | undefined) =>
   useBillingStore((s) => s.customers.find((c) => c.id === id));
 export const useCustomerActions = () =>
-  useBillingStore((s) => ({ add: s.addCustomer, update: s.updateCustomer, remove: s.deleteCustomer }));
+  useBillingStore(useShallow((s) => ({ add: s.addCustomer, update: s.updateCustomer, remove: s.deleteCustomer })));
 
 export const useInvoices = () => useBillingStore((s) => s.invoices);
 export const useInvoice = (id: string | undefined) =>
   useBillingStore((s) => s.invoices.find((i) => i.id === id));
 export const useInvoiceActions = () =>
-  useBillingStore((s) => ({
+  useBillingStore(useShallow((s) => ({
     add: s.addInvoice,
     update: s.updateInvoice,
     remove: s.deleteInvoice,
     importMany: s.importInvoices,
-  }));
+  })));
 
 export const useFilteredInvoices = (q: string, status: InvoiceStatus | "all") => {
   const invoices = useInvoices();
