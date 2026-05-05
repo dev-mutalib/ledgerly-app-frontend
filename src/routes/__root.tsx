@@ -1,4 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 import appCss from "../styles.css?url";
 
@@ -65,5 +67,20 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-[image:var(--gradient-subtle)]">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col min-w-0">
+          <header className="h-14 flex items-center border-b bg-background/60 backdrop-blur sticky top-0 z-10 px-3 gap-2">
+            <SidebarTrigger />
+            <span className="text-sm text-muted-foreground">Billing workspace</span>
+          </header>
+          <main className="flex-1 min-w-0">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
+  );
 }
