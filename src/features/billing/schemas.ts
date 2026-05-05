@@ -4,8 +4,8 @@ export const customerSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Name required"),
   email: z.string().email("Invalid email"),
-  company: z.string().optional().default(""),
-  phone: z.string().optional().default(""),
+  company: z.string(),
+  phone: z.string(),
   createdAt: z.string(),
 });
 export type Customer = z.infer<typeof customerSchema>;
@@ -31,8 +31,8 @@ export const invoiceSchema = z.object({
   dueDate: z.string(),
   status: invoiceStatusSchema,
   items: z.array(invoiceItemSchema).min(1, "At least one item"),
-  notes: z.string().optional().default(""),
-  taxRate: z.coerce.number().min(0).max(100).default(0),
+  notes: z.string(),
+  taxRate: z.coerce.number().min(0).max(100),
 });
 export type Invoice = z.infer<typeof invoiceSchema>;
 export const invoiceInputSchema = invoiceSchema.omit({ id: true, number: true });
